@@ -1,0 +1,29 @@
+# Common Arguments
+'ur_type': 'ur10'
+'use_mock_hardware': 'true' # true
+'safety_limits': 'true'
+'safety_k_position': '20'
+'description_package': "ur_description"
+'description_file': 'ur.urdf.xacro'
+'launch_rviz': 'true'
+'robot_ip': '192.168.56.101' # 56.101 # 214.20
+# 'reverse_ip': '192.168.56.101' # 56.101 # 214.20
+
+# Control only
+'runtime_config_package': 'ur_robot_driver'
+'controllers_file': 'ur_controllers.yaml'
+
+# Moveit only
+'moveit_config_package': 'ur_moveit_config'
+'moveit_config_file': 'ur.srdf.xacro'
+'warehouse_sqlite_path': 'os.path.expanduser("~/.ros/warehouse_ros.sqlite")'
+'use_sim_time': 'true'  # false to get workin
+'tf_prefix': ''
+'launch_servo': 'true' # true
+
+
+'initial_joint_controller': 'joint_trajectory_controller'
+'headless_mode': 'false'  # true
+'exe_node': 'mtc_pack_sim'
+'activate_joint_controller': 'true'
+'arm_group_name': 'ur10_manipulator'
