@@ -49,5 +49,5 @@
         // "--gpus=all",
         // "--runtime=nvidia",
     ],
-    "postCreateCommand": "bash /home/ws/.github/scripts/setup_workspace.sh && bash /home/ws/.github/scripts/setup_ros2.sh"
+    "postCreateCommand": "bash /home/ws/.github/scripts/setup_workspace.sh && bash /home/ws/.github/scripts/setup_ros2.sh && bash /home/ws/.github/scripts/setup_gazebo.sh"
 }
