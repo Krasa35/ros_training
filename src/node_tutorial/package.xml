@@ -7,6 +7,11 @@
   <maintainer email="ros2@todo.todo">ros2</maintainer>
   <license>TODO: License declaration</license>
 
+  <depend>kinova_gen3_7dof_robotiq_2f_85_moveit_config</depend>
+  <depend>kortex_bringup</depend>
+
+  <depend>sensor_msgs</depend>
+
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <test_depend>ament_lint_auto</test_depend>
