@@ -1,4 +1,8 @@
 #   ROS Training course for CybAiR Science Club
+
+TODO: 
+ADD TO DEVCONTAINER.JSON vcs import /home/ros2/addon_repos < .github/dependencies.repo
+
 Follow steps below to setup and test environment for Training course.
 > [!CAUTION]
 > For Windows ensure Windows branch is chosen before downloading zip file

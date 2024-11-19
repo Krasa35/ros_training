@@ -26,7 +26,7 @@ class MinimalSubscriber : public rclcpp::Node
           oss << "\tJoint " << i + 1 << ": " << joint_states[i] << "\n";
       }
     return oss.str();
-}
+    }
     rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr subscription_;
 };
 
