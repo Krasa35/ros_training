@@ -34,6 +34,7 @@
         "source=${localWorkspaceFolder}/_cache/log,target=/home/ws/log,type=bind",
         "source=${localWorkspaceFolder}/src,target=/home/ws/src,type=bind",
         "source=${localWorkspaceFolder}/.github,target=/home/ws/.github,type=bind",
+        "source=${localWorkspaceFolder}/.github/.vscode,target=/home/ws/.vscode,type=bind",
         "source=${localWorkspaceFolder}/README.md,target=/home/ws/README.md,type=bind"
         ],
     "containerEnv": {

@@ -31,6 +31,7 @@ def launch_setup(context, *args, **kwargs):
     launch_rviz = LaunchConfiguration("launch_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
     use_internal_bus_gripper_comm = LaunchConfiguration("use_internal_bus_gripper_comm")
+    start_mtc = LaunchConfiguration("start_mtc")
 
     launch_arguments = {
         "robot_ip": robot_ip,
@@ -46,11 +47,12 @@ def launch_setup(context, *args, **kwargs):
     moveit_config = (
         MoveItConfigsBuilder("gen3", package_name="kinova_gen3_7dof_robotiq_2f_85_moveit_config")
         .robot_description(mappings=launch_arguments)
-        .trajectory_execution(file_path="config/moveit_controllers.yaml")
+        # .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .planning_scene_monitor(
             publish_robot_description=True, publish_robot_description_semantic=True
         )
-        .planning_pipelines(pipelines=["ompl", "pilz_industrial_motion_planner"])
+        # .robot_description_kinematics(file_path="config/kinematics.yaml")
+        # .planning_pipelines(pipelines=["ompl", "pilz_industrial_motion_planner"])
         .to_moveit_configs()
     )
 
@@ -126,10 +128,20 @@ def launch_setup(context, *args, **kwargs):
         condition=UnlessCondition(use_fake_hardware),
     )
 
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "joint_state_broadcaster",
+            "--controller-manager",
+            "/controller_manager",
+        ],
+    )
+
     # rviz with moveit configuration
     rviz_config_file = (
         get_package_share_directory("node_tutorial")
-        + "/config/view_kinova.rviz"
+        + "/config/view_kinova_combo.rviz"
     )
     rviz_node = Node(
         package="rviz2",
@@ -147,16 +159,6 @@ def launch_setup(context, *args, **kwargs):
         ],
     )
 
-    joint_state_broadcaster_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            "joint_state_broadcaster",
-            "--controller-manager",
-            "/controller_manager",
-        ],
-    )
-
     # Delay rviz start after `joint_state_broadcaster`
     delay_rviz_after_joint_state_broadcaster_spawner = RegisterEventHandler(
         event_handler=OnProcessExit(
@@ -164,6 +166,16 @@ def launch_setup(context, *args, **kwargs):
             on_exit=[rviz_node],
         ),
         condition=IfCondition(launch_rviz),
+    )
+
+    moveit_mtc_node = Node(
+        package="node_tutorial",
+        executable="moveit_mtc",
+        output="screen",
+        condition=IfCondition(start_mtc),
+        parameters=[
+            moveit_config.to_dict()
+        ],
     )
 
     nodes_to_start = [
@@ -175,8 +187,9 @@ def launch_setup(context, *args, **kwargs):
         robot_pos_controller_spawner,
         robot_hand_controller_spawner,
         fault_controller_spawner,
+        static_tf,
         move_group_node,
-        static_tf
+        moveit_mtc_node
     ]
 
     return nodes_to_start
@@ -237,5 +250,13 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument("launch_rviz", default_value="true", description="Launch RViz?")
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "start_mtc",
+            default_value="false",
+            description="Start mtc example?",
+        )
+    )
+    
 
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])

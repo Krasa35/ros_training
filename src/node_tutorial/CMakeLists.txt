@@ -14,6 +14,7 @@ find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(moveit_visual_tools REQUIRED)
+find_package(moveit_task_constructor_core REQUIRED)
 
 
 
@@ -26,6 +27,9 @@ ament_target_dependencies(tf_broadcaster rclcpp tf2 tf2_ros geometry_msgs)
 add_executable(moveit_movegroup src/moveit_movegroup.cpp)
 ament_target_dependencies(moveit_movegroup rclcpp moveit_visual_tools moveit_ros_planning_interface)
 
+add_executable(moveit_mtc src/moveit_mtc.cpp)
+ament_target_dependencies(moveit_mtc rclcpp moveit_visual_tools moveit_ros_planning_interface moveit_task_constructor_core)
+
 install(
   DIRECTORY launch config
   DESTINATION share/${PROJECT_NAME}
@@ -35,6 +39,7 @@ install(TARGETS
   listener
   tf_broadcaster
   moveit_movegroup
+  moveit_mtc
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
