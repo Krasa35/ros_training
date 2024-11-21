@@ -1,12 +1,16 @@
 #   ROS Training course for CybAiR Science Club
 
-TODO: 
-ADD TO DEVCONTAINER.JSON vcs import /home/ros2/addon_repos < .github/dependencies.repo
-
 Follow steps below to setup and test environment for Training course.
 > [!CAUTION]
 > For Windows ensure Windows branch is chosen before downloading zip file
 > Follow setup for Docker Desktop or WSL and Docker. Install X server.
+> Also execute below commands because building these takes too much time and devcontainer is disconnecting
+
+```bash
+colcon build --base-paths /home/ros2/addon_repos --paths /home/ros2/addon_repos/*
+source /home/ws/install/setup.bash
+colcon build --base-paths /home/ws
+```
 
 > [!WARNING]
 > After cloning repo execute below command in git repo folder on linux or in windows Powershell
